@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Recipe Muse</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Recipe Muse</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container text-center">
+          <img src="{{ url_for('static', filename='welcome_img.png') }}" alt="Welcome Image" class="img-fluid">
+          <h1>Welcome to Recipe Muse!</h1>
+          <p>Your personal recipe organizer and cookbook!</p>
+          <p>Do you love cooking and need an idea for a meal?
+            Or do you have ingredients and don't know how to
+            use them to achieve your desired meal? Then you are
+            in the right place. Explore our different recipes</p>
+          <a href="{{ url_for('index') }}" class="btn btn-primary">Explore Recipe</a>
+    </div>
+</body>
+</html>

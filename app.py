@@ -12,7 +12,7 @@ API_KEY = "5a3a0133ba904a66b9e3a9fa055e52aa"
 @app.route('/home', methods=['GET'])
 def home():
     #renders the home page with empty recipe list
-    return render_template('home.html', recipes=[], search_query="")
+    return render_template('welcome.html')
 
 #Defines the main route for the app
 @app.route('/', methods=['GET', 'POST'])
@@ -23,9 +23,9 @@ def index():
         #Gets the recipes from the Spoonacular API
         recipes = get_recipes(query)
         #Renders the home page with the recipes
-        return render_template('home.html', recipes=recipes, search_query=query)
-     
-     #if the request method is GET or no form was submitted
+        return render_template('home.html', recipes=recipes, search_query=query) 
+
+    #if the request method is GET or no form was submitted
     search_query = request.args.get('search_query', '')
     decoded_search_query = unquote(search_query)
 
@@ -33,7 +33,7 @@ def index():
     recipes = get_recipes(decoded_search_query)
 
     #Renders the home page with the recipes
-    return render_template('home.html', recipes=recipes, search_query=decoded_search_query)
+    return render_template('home.html', recipes=recipes, search_query=decoded_search_query) 
 
 #Function to get recipes from the Spoonacular API
 def get_recipes(query):     
