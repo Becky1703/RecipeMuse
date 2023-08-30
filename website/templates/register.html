@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+ <!--CSS links and other headers here -->
+</head>
+<body>
+    <h1>Register</h1>
+    <form method="POST" action="{{ url_for('auth.register') }}">
+        <label for="first_name">Username:</label>
+        <input 
+        type="text"
+        name="username" 
+        placeholder="Enter your username"/>
+        
+        <label for="password">Password:</label>
+        <input 
+        type="password" 
+        name="password" 
+        placeholder="Enter your password"/>
+
+        <label for="email">Email Address</label>
+        <input
+        name="email"
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required/>
+        
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <div class="flashes">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        </div>
+</body>
+</html>

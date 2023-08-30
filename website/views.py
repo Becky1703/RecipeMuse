@@ -1,21 +1,24 @@
-from flask import Flask, render_template, request
+from flask import Blueprint, render_template, request, redirect, flash, url_for
 import requests
 from urllib.parse import unquote
+from flask_login import  current_user, login_required
+from .models import db, User, Recipe
 
-#Creates flask app
-app = Flask(__name__)
+#app = Flask(__name__)
+
+views = Blueprint('views', __name__)
 
 #My Spoonacular API Key
 API_KEY = "5a3a0133ba904a66b9e3a9fa055e52aa"
 
 #Defines route for the home page
-@app.route('/home', methods=['GET'])
+@views.route('/home', methods=['GET'])
 def home():
     #renders the home page with empty recipe list
     return render_template('welcome.html')
 
 #Defines the main route for the app
-@app.route('/', methods=['GET', 'POST'])
+@views.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         #Gets the search query from the form
@@ -60,18 +63,48 @@ def get_recipes(query):
     return []
 
 #Route to view a specific recipe with a given recipe ID
-@app.route('/recipe/<int:recipe_id>', methods=['GET'])
+@views.route('/recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def recipe(recipe_id):
     #Gets search query from the form
     search_query = request.args.get('search_query', '')
+    
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+           #Build url using the specific recipe ID
+           url = f"https://api.spoonacular.com/recipes/{recipe_id}/information"
+           params = {
+                'apiKey': API_KEY,
+           }
+           #Send GET request to the Spoonacular API to get the recipe information
+           response = requests.get(url, params=params)
 
-    #Build url using the specific recipe ID
+           if response.status_code == 200:
+               #Parse the API response as data
+               recipe_data = response.json()
+               
+               new_recipe = Recipe(
+                   name=recipe_data['title'],
+                   ingredients=", ".join(recipe_data['extendedIngredients']),
+                   instructions=recipe_data['instructions'],
+                   image_url=recipe_data['image'],
+                   user_id=current_user.id
+                   )
+               #Add the recipe to the current user's list of saved recipes
+               db.session.add(new_recipe)
+               db.session.commit()
+
+               flash('Recipe saved successfully!', 'success')
+               return redirect(url_for('recipe', recipe_id=recipe_id))
+           else:
+               flash("Failed to save the recipe. Please try again", "error")
+               #Redirect to the recipe page
+               return redirect(url_for('recipe', recipe_id=recipe_id))
+        else:
+            flash("You need to be logged in to save recipes.", "info")
+            return redirect(url_for('login'))
+    #Handles GET request
     url = f"https://api.spoonacular.com/recipes/{recipe_id}/information"
-    params = {
-        'apiKey': API_KEY,
-    }
-
-    #Send GET request to the Spoonacular API to get the recipe information
+    params = {'apiKey': API_KEY}
     response = requests.get(url, params=params)
 
     #If the API call doesnt return an Error
@@ -81,6 +114,9 @@ def recipe(recipe_id):
         return render_template('view_recipe.html', recipe=recipe, search_query=search_query)
     return "Recipe not found", 404
 
-#Runs the app in debug mode when executed
-if __name__ == '__main__':
-    app.run('0.0.0.0, port=5006', debug=True)
+@views.route('/saved_recipes', methods=['GET'])
+@login_required
+def saved_recipes():
+    # Fetch user's saved recipes
+    saved_recipes = Recipe.query.filter_by(user_id=current_user.id).all()
+    return render_template('saved_recipes.html', saved_recipes=saved_recipes)
