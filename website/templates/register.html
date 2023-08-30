@@ -9,15 +9,16 @@
 <body>
     <h1>Register</h1>
     <form method="POST" action="{{ url_for('auth.register') }}">
-        <label for="first_name">Username:</label>
+        <label for="username">Username:</label>
         <input 
         type="text"
+        id="username"
         name="username" 
         placeholder="Enter your username"/>
         
         <label for="password">Password:</label>
         <input 
-        type="password" 
+        type="password"
         name="password" 
         placeholder="Enter your password"/>
 
@@ -25,7 +26,6 @@
         <input
         name="email"
         type="email"
-        id="email"
         placeholder="Enter your email"
         required/>
         
