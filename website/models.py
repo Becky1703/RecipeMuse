@@ -69,15 +69,15 @@ class User(db.Model, UserMixin):
         return False
 
     def get_id(self):
-        return str(self.email)
+        return str(self.username)
     
 
 def init_db():
     db.create_all()
     #create test user
-    new_user = User('abc@a.com', '12345')
-    new_user.username = 'Lady'
-    db.session.add(new_user)
+    #new_user = User('abc@a.com', '12345')
+    #new_user.username = 'Lady'
+    db.session.add()
     db.session.commit()
 
 if __name__ == "__main__":

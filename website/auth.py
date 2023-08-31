@@ -34,19 +34,23 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+
+        print(f"Attempting login with username: {username} and password: {password}")
         
         user = User.query.filter_by(username=username).first()
-        
+        print(f"User object retrieved: {user}")
+
         if user:
             if check_password_hash(user.password_hash, password):
-                login_user(user, remember=True)
+                login_user(user)
                 flash('Logged in successfully!', 'success')
                 return redirect(url_for('views.index'))
             else:
-             flash('Invalid username or password', 'error')
+             flash('Incorrect Password', 'error')
         else:
-            flash('Invalid username or password', 'error')
-    return render_template('login.html', user=current_user)
+            flash('Invalid Username', 'error')
+            print("Invalid login attempt")
+    return render_template('login.html')
 
 @auth.route('/logout')
 @login_required
