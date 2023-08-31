@@ -18,11 +18,11 @@ def register():
             new_user = User(username=username, password=hashed_password, email=email)
             db.session.add(new_user)
             db.session.commit()
-            flash('Account created successfully!', 'success')
+            flash('Account created successfully!', category='success')
             return redirect(url_for('auth.login'))
         except Exception as e:
             db.session.rollback()
-            flash('An error occurred during registration.', 'error')
+            flash('An error occurred during registration.', category='error')
             flash(str(e), 'error')
             print(e)
     
@@ -30,27 +30,29 @@ def register():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    #from .models import db
+    from .models import db
     if request.method == 'POST':
-        username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
 
-        print(f"Attempting login with username: {username} and password: {password}")
+        print(f"Attempting login with username: {email} and password: {password}")
         
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(email=email).first()
         print(f"User object retrieved: {user}")
 
         if user:
             if check_password_hash(user.password_hash, password):
-                login_user(user)
-                flash('Logged in successfully!', 'success')
+                login_user(user, remember=True)
+                flash('Logged in successfully!', category='success')
+                print("Login successful")
+                #return redirect(url_for('views.saved_recipes')) 'success')
                 return redirect(url_for('views.index'))
             else:
-             flash('Incorrect Password', 'error')
+             flash('Incorrect Password', category='error')
         else:
-            flash('Invalid Username', 'error')
+            flash('Email is not correct. Try Again', category='error')
             print("Invalid login attempt")
-    return render_template('login.html')
+    return render_template('login.html', user=current_user)
 
 @auth.route('/logout')
 @login_required

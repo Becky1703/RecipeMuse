@@ -23,7 +23,7 @@ class Recipe(db.Model):
     ingredients = db.Column(db.Text, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(255))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
     def __init__(self, name, ingredients, instructions, image_url, user_id):
         self.name = name
@@ -69,7 +69,7 @@ class User(db.Model, UserMixin):
         return False
 
     def get_id(self):
-        return str(self.username)
+        return str(self.email)
     
 
 def init_db():

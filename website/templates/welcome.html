@@ -24,10 +24,10 @@
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" id="login" href="/login">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" id="register" href="/register">Register</a>
             </li>
           </ul>
         </div>
@@ -36,10 +36,11 @@
           <img src="{{ url_for('static', filename='welcome_img.png') }}" alt="Welcome Image" class="img-fluid">
           <h1>Welcome to Recipe Muse!</h1>
           <p>Your personal recipe organizer and cookbook!</p>
-          <p>Do you love cooking and need an idea for a meal?
+          <p class="text-center">Do you love cooking and need an idea for a meal?
             Or do you have ingredients and don't know how to
             use them to achieve your desired meal? Then you are
-            in the right place. Explore our different recipes</p>
+            in the right place. Explore our different recipes or
+            Create an account to save recipes</p>
           <a href="{{ url_for('views.index') }}" class="btn btn-primary">Explore Recipe</a>
           <a href="{{ url_for('auth.register') }}" class="btn btn-success">Create an Account</a>
         </div>

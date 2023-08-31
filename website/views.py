@@ -26,7 +26,7 @@ def index():
         #Gets the recipes from the Spoonacular API
         recipes = get_recipes(query)
         #Renders the home page with the recipes
-        return render_template('home.html', recipes=recipes, search_query=query) 
+        return render_template('index.html', recipes=recipes, search_query=query) 
 
     #if the request method is GET or no form was submitted
     search_query = request.args.get('search_query', '')
@@ -36,7 +36,7 @@ def index():
     recipes = get_recipes(decoded_search_query)
 
     #Renders the home page with the recipes
-    return render_template('home.html', recipes=recipes, search_query=decoded_search_query) 
+    return render_template('index.html', recipes=recipes, search_query=decoded_search_query) 
 
 #Function to get recipes from the Spoonacular API
 def get_recipes(query):     
@@ -120,3 +120,11 @@ def saved_recipes():
     # Fetch user's saved recipes
     saved_recipes = Recipe.query.filter_by(user_id=current_user.id).all()
     return render_template('saved_recipes.html', saved_recipes=saved_recipes)
+    
+    """
+    write a saved_recipes.html template
+    """
+    
+    """
+    write a delete_recipe.html template
+    """
