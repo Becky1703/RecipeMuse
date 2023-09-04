@@ -12,14 +12,14 @@ views = Blueprint('views', __name__)
 API_KEY = "5a3a0133ba904a66b9e3a9fa055e52aa"
 
 #Defines route for the home page
-@views.route('/home', methods=['GET'])
-def home():
+@views.route('/', methods=['GET'])
+def welcome():
     """ Renders the landing page of the app as a welcome page"""
     #renders the home page with empty recipe list
     return render_template('welcome.html')
 
 #Defines the main route for the app
-@views.route('/', methods=['GET', 'POST'])
+@views.route('/index', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         #Gets the search query from the form
