@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Create a database connection
-db = SQLAlchemy()
+#db = SQLAlchemy()
 
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
