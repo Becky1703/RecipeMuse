@@ -68,6 +68,14 @@
         <li>{{ step.step }}</li>
         {% endfor %}
     </ol>
+    {% if current_user.is_authenticated %}
+        <form method="POST" action="{{ url_for('recipe', recipe_id=recipe.id, search_query=search_query) }}">
+            <input type="hidden" name="search_query" value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary">Save Recipe</button>
+        </form>
+    {% else %}
+        <p><a href="{{ url_for('auth.login') }}">Log in</a> to save this recipe.</p>
+    {% endif %}
     <a href="/?search_query={{ search_query }}">Back to search results</a>
    </div>
 </body>
