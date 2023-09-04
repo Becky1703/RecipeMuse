@@ -1,21 +1,10 @@
 from . import db
-#from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-#app = create_app()
-
-#app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-#db = SQLAlchemy(app)
-#app.config['SECRET_KEY'] = 'abcd'
-#app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://recipemuse_dev:recipemuse_pwd@localhost/recipemuse_db"
-#app.config["SQLALCHEMY_ECHO"] = True
-
-
 # Create a database connection
-#db = SQLAlchemy()
+db = SQLAlchemy()
 
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
