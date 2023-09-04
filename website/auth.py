@@ -7,6 +7,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    """ Registers a  new user using the /register route"""
     from .models import db
     if request.method == 'POST':
         try:
@@ -30,32 +31,31 @@ def register():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """ Implements the user login functionality using the /login route """
     from .models import db
+    from .models import User
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-
-        print(f"Attempting login with username: {email} and password: {password}")
         
         user = User.query.filter_by(email=email).first()
-        print(f"User object retrieved: {user}")
 
-        if user:
-            if check_password_hash(user.password_hash, password):
-                login_user(user, remember=True)
+        if user and check_password_hash(user.password_hash, password):
                 flash('Logged in successfully!', category='success')
-                print("Login successful")
+                login_user(user, remember=True)
                 #return redirect(url_for('views.saved_recipes')) 'success')
                 return redirect(url_for('views.index'))
-            else:
-             flash('Incorrect Password', category='error')
         else:
-            flash('Email is not correct. Try Again', category='error')
-            print("Invalid login attempt")
+            flash('Invalid username or password', category='error')
     return render_template('login.html', user=current_user)
 
 @auth.route('/logout')
 @login_required
 def logout():
+    """ Logs out a user using the /logout route.
+    This is a wrapper function for the flask_login logout_user() function.
+    This function redirects the user to the index page after logging out.
+    This function is called by the logout button on the login page.
+    """
     logout_user()
     return redirect(url_for('index'))

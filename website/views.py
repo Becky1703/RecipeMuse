@@ -14,6 +14,7 @@ API_KEY = "5a3a0133ba904a66b9e3a9fa055e52aa"
 #Defines route for the home page
 @views.route('/home', methods=['GET'])
 def home():
+    """ Renders the landing page of the app as a welcome page"""
     #renders the home page with empty recipe list
     return render_template('welcome.html')
 
@@ -40,7 +41,8 @@ def index():
 
 #Function to get recipes from the Spoonacular API
 def get_recipes(query):     
-    #Sends a GET request to the Spoonacular API
+    """ Sends a GET request to the Spoonacular API to retrieve the recipe data stored in
+     the API """
     url = f"https://api.spoonacular.com/recipes/complexSearch"
     params = {
         'apiKey': API_KEY,
@@ -65,7 +67,7 @@ def get_recipes(query):
 #Route to view a specific recipe with a given recipe ID
 @views.route('/recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def recipe(recipe_id):
-    #Gets search query from the form
+    """ Implements getting a search query from the form """
     search_query = request.args.get('search_query', '')
     
     if request.method == 'POST':
@@ -117,14 +119,6 @@ def recipe(recipe_id):
 @views.route('/saved_recipes', methods=['GET'])
 @login_required
 def saved_recipes():
-    # Fetch user's saved recipes
+    """ Fetches all the recipes from the current user's saved recipes """
     saved_recipes = Recipe.query.filter_by(user_id=current_user.id).all()
     return render_template('saved_recipes.html', saved_recipes=saved_recipes)
-    
-    """
-    write a saved_recipes.html template
-    """
-    
-    """
-    write a delete_recipe.html template
-    """
