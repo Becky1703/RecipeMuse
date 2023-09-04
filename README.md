@@ -1,2 +1,2 @@
 # RecipeMuse
-This is a personal project to build a Recipe Web Application using Python 
+This is a portfolio project to build a Recipe Web Application using Python 
