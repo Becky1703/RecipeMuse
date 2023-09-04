@@ -13,21 +13,21 @@ API_KEY = "5a3a0133ba904a66b9e3a9fa055e52aa"
 
 #Defines route for the home page
 @views.route('/', methods=['GET'])
-def welcome():
+def index():
     """ Renders the landing page of the app as a welcome page"""
     #renders the home page with empty recipe list
-    return render_template('welcome.html')
+    return render_template('index.html')
 
 #Defines the main route for the app
-@views.route('/index', methods=['GET', 'POST'])
-def index():
+@views.route('/search', methods=['GET', 'POST'])
+def search():
     if request.method == 'POST':
         #Gets the search query from the form
         query = request.form.get('search_query', '')
         #Gets the recipes from the Spoonacular API
         recipes = get_recipes(query)
         #Renders the home page with the recipes
-        return render_template('index.html', recipes=recipes, search_query=query) 
+        return render_template('search.html', recipes=recipes, search_query=query) 
 
     #if the request method is GET or no form was submitted
     search_query = request.args.get('search_query', '')
@@ -37,7 +37,7 @@ def index():
     recipes = get_recipes(decoded_search_query)
 
     #Renders the home page with the recipes
-    return render_template('index.html', recipes=recipes, search_query=decoded_search_query) 
+    return render_template('search.html', recipes=recipes, search_query=decoded_search_query) 
 
 #Function to get recipes from the Spoonacular API
 def get_recipes(query):     

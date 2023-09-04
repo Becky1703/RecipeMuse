@@ -76,7 +76,7 @@
     {% else %}
         <p><a href="{{ url_for('auth.login') }}">Log in</a> to save this recipe.</p>
     {% endif %}
-    <a href="/?search_query={{ search_query }}">Back to search results</a>
+    <a href="/search?search_query={{ search_query }}">Back to search results</a>
    </div>
 </body>
 </html>

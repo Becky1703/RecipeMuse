@@ -1,98 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RecipeMuse</title>
+    <title>Welcome to Recipe Muse</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            text-align: center;
-            margin: 40px;
-            font-family:Arial, Helvetica, sans-serif;
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
         }
-        h1 {
-            margin-bottom: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        ul {
-            list-style: none;
-            padding: 0
-        }
-        li {
-            display: inline-block;
-            text-align: center;
-            margin: 10px;
-            width: 200px;
-        }
-        .recipe-title {
-            font-size: 16px;
-            line-height: 1.2;
-            max-height: hidden;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: normal;
-        }
-        img {
-            display: block;
-            margin: 0 auto;
-            max-width: 200px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            color: blue;
-            text-decoration: underline;
-        }
-        .home-button {
-            display: inline-block;
-            margin-top: 10px;
-            margin-left: 10px;
-            color: blue;
-            text-decoration: underline;
-        }
-        .recipe-details {
-            max-width: 600px;
-            margin: 0 auto;
-            border: 2px solid #ccc;
-            padding: 20px;
-        }
-        .section-title {
-            text-align: left;
-            margin: 10px;
-        }
-        .ingredient-list, .instruction-list {
-            text-align: left;
-        }
-        
-    </style> 
+    </style>
 </head>
 <body>
-    <h1>RecipeMuse</h1>
-    <form method="POST" action="/index">
-        <input type="text" name="search_query" placehorder="search for recipes">
-        <input type="submit" value="Search">
-        <a href="/" class="home-button">Home</a>
-    </form>
-
-    <!--  Checks if recipes are available --> 
-    {% if recipes %}
-    <h2> Results for "{{ search_query }}"</h2>
-    <ul>
-        {% for recipe in recipes %}
-        <li>
-            <h3 class="recipe-title">{{ recipe.title }}</h3>
-            {% if recipe.image %}
-            <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
-            {% endif %}
-            <a href="{{ url_for('views.recipe', recipe_id=recipe.id, search_query=search_query)}}">View</a>
-        </li>
-        {% endfor %}
-    </ul>
-    <!-- If no recipe is found -->
-    {% else %}
-    <p>No recipe found.</p>
-    {% endif %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Recipe Muse</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="login" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="register" href="/register">Register</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container text-center">
+          <img src="{{ url_for('static', filename='welcome_img.png') }}" alt="Welcome Image" class="img-fluid">
+          <h1>Welcome to Recipe Muse!</h1>
+          <p>Your personal recipe organizer and cookbook!</p>
+          <p class="text-center">Do you love cooking and need an idea for a meal?
+            Or do you have ingredients and don't know how to
+            use them to achieve your desired meal? Then you are
+            in the right place. Explore our different recipes or
+            Create an account to save recipes</p>
+          <a href="{{ url_for('views.search') }}" class="btn btn-primary">Explore Recipe</a>
+          <a href="{{ url_for('auth.register') }}" class="btn btn-success">Create an Account</a>
+        </div>
 </body>
 </html>
