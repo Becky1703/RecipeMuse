@@ -9,10 +9,14 @@ login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
+    #app.config['ENV'] = 'production'
+    #app.config['SECRET_KEY'] = 'abcd'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://recipemuse:pwd_database@recipemuse.mysql.pythonanywhere-services.com/recipemuse$recipemuse_db"
+
     app.config['SECRET_KEY'] = 'abcd'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://recipemuse_dev:recipemuse_pwd@localhost/recipemuse_db"
-    app.config["SQLALCHEMY_ECHO"] = True
-    app.config["SQLALCHEMY_RECORD_QUERIES"] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://recipemuse_dev:recipemuse_pwd@localhost/recipemuse_db"
+    #app.config["SQLALCHEMY_ECHO"] = True
+    #app.config["SQLALCHEMY_RECORD_QUERIES"] = True
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)

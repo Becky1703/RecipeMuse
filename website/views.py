@@ -4,6 +4,7 @@ from urllib.parse import unquote
 from flask_login import  current_user, login_required
 from .models import db, User, Recipe
 
+
 #app = Flask(__name__)
 
 views = Blueprint('views', __name__)
