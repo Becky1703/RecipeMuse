@@ -4,8 +4,6 @@ from urllib.parse import unquote
 from flask_login import  current_user, login_required
 from .models import db, User, Recipe
 
-#app = Flask(__name__)
-
 views = Blueprint('views', __name__)
 
 #My Spoonacular API Key
@@ -14,13 +12,14 @@ API_KEY = "5a3a0133ba904a66b9e3a9fa055e52aa"
 #Defines route for the home page
 @views.route('/', methods=['GET'])
 def index():
-    """ Renders the landing page of the app as a welcome page"""
+    """ Renders the index page of the app as a welcome page"""
     #renders the home page with empty recipe list
     return render_template('index.html')
 
 #Defines the main route for the app
 @views.route('/search', methods=['GET', 'POST'])
 def search():
+    """ Implements a search function using POST method """
     if request.method == 'POST':
         #Gets the search query from the form
         query = request.form.get('search_query', '')
@@ -67,7 +66,7 @@ def get_recipes(query):
 #Route to view a specific recipe with a given recipe ID
 @views.route('/recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def recipe(recipe_id):
-    """ Implements getting a search query from the form """
+    """ Implements viewing recipe and displaying recipe details """
     search_query = request.args.get('search_query', '')
     
     if request.method == 'POST':
@@ -81,7 +80,7 @@ def recipe(recipe_id):
            response = requests.get(url, params=params)
 
            if response.status_code == 200:
-               #Parse the API response as data
+               #Parses the API response as data
                recipe_data = response.json()
                
                new_recipe = Recipe(
@@ -96,14 +95,14 @@ def recipe(recipe_id):
                db.session.commit()
 
                flash('Recipe saved successfully!', 'success')
-               return redirect(url_for('recipe', recipe_id=recipe_id))
+               return redirect(url_for('views.recipe', recipe_id=recipe_id))
            else:
                flash("Failed to save the recipe. Please try again", "error")
                #Redirect to the recipe page
-               return redirect(url_for('recipe', recipe_id=recipe_id))
+               return redirect(url_for('views.recipe', recipe_id=recipe_id))
         else:
             flash("You need to be logged in to save recipes.", "info")
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
     #Handles GET request
     url = f"https://api.spoonacular.com/recipes/{recipe_id}/information"
     params = {'apiKey': API_KEY}
