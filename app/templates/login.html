@@ -8,84 +8,66 @@
     <!-- CSS links and other headers here -->
 </head>
 <body>
-    <div class="container mt-3">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                {% if category == 'error' %}
-                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  {% else %}
-                 <div class="alert alert-success alter-dismissible fade show" role="alert"  >
-                   {{ message }}
-                   <button type="button" class="close" data-dismiss="alert">
-                   <span aria-hidden="true">&times;</span>
-                 </button>
-                 </div>
-                {% endif %}  
-                {% endfor %}
-            {% endif %}
-        {% endwith %} 
+  <div class="container mt-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category == 'error' %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <div class="container mt-5">
-        <h1>Login</h1>
-        <form method="POST" action="{{ url_for('auth.login') }}">
-        <div class="mb-3"> 
-            <label for="email">Email:</label>
-            <input 
-            class="form-control"
-            type="text"
-            id="email"
-            name="email"
-            autocomplete="email"
-            placeholder="Enter your email"
-            required/>
-        </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+  <div class="container mt-5">
+    <h1>Login</h1>
+    <form method="POST" action="{{ url_for('auth.login') }}">
+      <div class="mb-3">
+        <label for="email">Email:</label>
+        <input class="form-control" type="text" id="email" name="email" autocomplete="email"
+          placeholder="Enter your email" required />
+      </div>
 
-        <div class="mb-3">
-           <label for="password">Password:</label>
-           <input
-           class="form-control"
-           name="password"
-           type="password"
-           autocomplete="current-password"
-           id="password"
-           placeholder="Enter your Password"
-           required/>
-        </div>
-        <div class="mb-3">
-        <br />  
+      <div class="mb-3">
+        <label for="password">Password:</label>
+        <input class="form-control" name="password" type="password" autocomplete="current-password" id="password"
+          placeholder="Enter your Password" required />
+      </div>
+      <div class="mb-3">
+        <br />
         <button type="submit" class="btn btn-primary">Login</button>
-        </div>
-    </div>    
-    </form>
-    <div class="container mt-3">
-        {%if not current_user.is_authenticated %}
-          <p class="text-center">
-            Don't have an account? <a href="{{ url_for('auth.register') }}">Register</a></p>
-        {% endif %}
-          <p><a href="{{ request.referrer }}">Back</a></p>
-    </div>      
-    </div>
-    <script
-        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"
-      ></script>
-      <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"
-      ></script>
-      <script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"
-      ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.bundle.min.js"></script>
+      </div>
+  </div>
+  </form>
+  <div class="container mt-3">
+    {%if not current_user.is_authenticated %}
+    <p class="text-center">
+      Don't have an account? <a href="{{ url_for('auth.register') }}">Register</a></p>
+    {% endif %}
+    <p><a href="{{ request.referrer }}">Back</a></p>
+  </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

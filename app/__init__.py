@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 #from .models import db
+import logging
 
 
 db = SQLAlchemy()
@@ -9,9 +10,16 @@ login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
-    #app.config['ENV'] = 'production'
-    #app.config['SECRET_KEY'] = 'abcd'
-    #app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://recipemuse:pwd_database@recipemuse.mysql.pythonanywhere-services.com/recipemuse$recipemuse_db"
+
+
+    # Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    logging.basicConfig(level=logging.DEBUG)
+
+    # Optionally, write logs to a file
+    file_handler = logging.FileHandler("app.log")
+    file_handler.setLevel(logging.DEBUG)
+    app.logger.addHandler(file_handler)
+
 
     app.config['SECRET_KEY'] = 'abcd'
     app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://recipemuse_dev:recipemuse_pwd@localhost/recipemuse_db"
@@ -21,6 +29,9 @@ def create_app():
     
     db.init_app(app)
     #login_manager.init_app(app)
+    #login_manager = LoginManager(app)
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
 
     
     from .views import views
@@ -48,12 +59,12 @@ def create_app():
 
 
     #login_manager = LoginManager(app)
-    login_manager.login_view = 'auth.login'
-    login_manager.init_app(app)
+    #login_manager.login_view = 'auth.login'
+    #login_manager.init_app(app)
 
     @login_manager.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     
     return app
