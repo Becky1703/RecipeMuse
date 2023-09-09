@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, flash, url_for
 import requests
 from urllib.parse import unquote
 from flask_login import  current_user, login_required
-from .models import db, User, Recipe
+from .models import db, User, Recipe, SavedRecipe
 
 views = Blueprint('views', __name__)
 
@@ -85,17 +85,18 @@ def recipe(recipe_id):
                
                new_recipe = Recipe(
                    name=recipe_data['title'],
-                   ingredients=", ".join(recipe_data['extendedIngredients']),
+                   ingredients=", ".join(ingredient['name'] for ingredient in recipe_data['extendedIngredients']),
                    instructions=recipe_data['instructions'],
                    image_url=recipe_data['image'],
                    user_id=current_user.id
-                   )
+                )
+
                #Add the recipe to the current user's list of saved recipes
                db.session.add(new_recipe)
                db.session.commit()
 
                flash('Recipe saved successfully!', 'success')
-               return redirect(url_for('views.recipe', recipe_id=recipe_id))
+               return redirect(url_for('views.saved_recipes', recipe_id=recipe_id))
            else:
                flash("Failed to save the recipe. Please try again", "error")
                #Redirect to the recipe page
@@ -103,6 +104,7 @@ def recipe(recipe_id):
         else:
             flash("You need to be logged in to save recipes.", "info")
             return redirect(url_for('auth.login'))
+        
     #Handles GET request
     url = f"https://api.spoonacular.com/recipes/{recipe_id}/information"
     params = {'apiKey': API_KEY}
@@ -115,9 +117,31 @@ def recipe(recipe_id):
         return render_template('view_recipe.html', recipe=recipe, search_query=search_query)
     return "Recipe not found", 404
 
+
 @views.route('/saved_recipes', methods=['GET'], strict_slashes=True)
 @login_required
 def saved_recipes():
     """ Fetches all the recipes from the current user's saved recipes """
     saved_recipes = Recipe.query.filter_by(user_id=current_user.id).all()
+
+    if not saved_recipes:
+        flash("You have no saved recipes.", 'no_saved_recipes')
+
     return render_template('saved_recipes.html', saved_recipes=saved_recipes)
+
+@views.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
+@login_required
+def delete_recipe(recipe_id):
+    """ Implements deleting a saved recipe """
+    recipe = Recipe.query.get_or_404(recipe_id)
+
+    # Check if the recipe belongs to the current user
+    if recipe.user_id == current_user.id:
+        db.session.delete(recipe)
+        db.session.commit()
+        flash('Recipe deleted successfully!', 'success')
+    else:
+        flash('You can only delete your own recipes.', 'error')
+
+    return redirect(url_for('views.saved_recipes'))
+
