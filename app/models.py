@@ -1,8 +1,10 @@
+""" Database """
 from . import db
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 
 class Recipe(db.Model):
+    """ Stores recipe data in the database """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     __table_args__ = (
@@ -15,6 +17,7 @@ class Recipe(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class User(db.Model, UserMixin):
+    """ Stores User data in the database """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
@@ -22,6 +25,7 @@ class User(db.Model, UserMixin):
     recipe = db.relationship('Recipe')
 
 class SavedRecipe(db.Model):
+    """ Stores saved recipes data in the database """
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     recipe_id = db.Column(db.Integer, nullable=False)

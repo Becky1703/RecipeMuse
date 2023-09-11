@@ -1,3 +1,4 @@
+""" Functions to impleement different routes and views """
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 import requests
 from urllib.parse import unquote
@@ -65,7 +66,7 @@ def get_recipes(query):
 #Route to view a specific recipe with a given recipe ID
 @views.route('/recipe/<int:recipe_id>', methods=['GET', 'POST'], strict_slashes=True)
 def recipe(recipe_id):
-    """ Implements viewing recipe and displaying recipe details """
+    """ Implements viewing recipe, displaying recipe details and saving a recipe """
     search_query = request.args.get('search_query', '')
     
     if request.method == 'POST':
@@ -92,7 +93,7 @@ def recipe(recipe_id):
                 flash('Recipe already saved!', 'info')
                 return redirect(url_for('views.recipe', recipe_id=recipe_id))
                 
-               # Create a new Recipe object and save it
+               # Creates a new Recipe object and save it
                new_recipe = Recipe(
                    name=recipe_data['title'],
                    ingredients=", ".join(ingredient['name'] for ingredient in recipe_data['extendedIngredients']),
@@ -101,7 +102,7 @@ def recipe(recipe_id):
                    user_id=current_user.id
                 )
 
-               #Add the recipe to the current user's list of saved recipes
+               #Adds the recipe to the current user's list of saved recipes
                db.session.add(new_recipe)
                db.session.commit()
 

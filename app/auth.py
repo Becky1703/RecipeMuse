@@ -1,3 +1,4 @@
+""" User authentication """
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,8 +10,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    """data = request.form
-    print(data)"""
+    """ Implements the user login route """
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -32,11 +32,13 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    """ Implements user logout only if the user is logged in """
     logout_user()
     return redirect(url_for('views.index'))
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    """ Implements the registration route for a new user """
     if request.method == 'POST':
         email = request.form.get('email')
         username = request.form.get('username')
