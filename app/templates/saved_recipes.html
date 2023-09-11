@@ -11,7 +11,7 @@
 <body>
     <div class="container mt-4">
         <h1 class="mb-4">RecipeMuse: Your Saved Recipes</h1>
-        
+
         {% with messages = get_flashed_messages(category_filter=["no_saved_recipes"]) %}
         {% if messages %}
         <div class="alert alert-info">
@@ -26,7 +26,7 @@
             {% for recipe in saved_recipes %}
             <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="card-title">{{ recipe.title }}</h2>
+                    <h2 class="card-title">{{ recipe.name }}</h2>
                     <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}" class="img-fluid">
                     </b>
                     <form method="POST" action="{{ url_for('views.delete_recipe', recipe_id=recipe.id) }}">
