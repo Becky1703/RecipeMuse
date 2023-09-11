@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, flash, url_for
 import requests
 from urllib.parse import unquote
 from flask_login import  current_user, login_required
-from .models import db, User, Recipe, SavedRecipe
+from .models import db, Recipe
 
 views = Blueprint('views', __name__)
 
@@ -13,7 +13,6 @@ API_KEY = "5a3a0133ba904a66b9e3a9fa055e52aa"
 @views.route('/', methods=['GET'], strict_slashes=True)
 def index():
     """ Renders the index page of the app as a welcome page"""
-    #renders the home page with empty recipe list
     return render_template('index.html')
 
 #Defines the main route for the app
@@ -76,13 +75,24 @@ def recipe(recipe_id):
            params = {
                 'apiKey': API_KEY,
            }
-           #Send GET request to the Spoonacular API to get the recipe information
+           #Sends GET request to the Spoonacular API to get the recipe information
            response = requests.get(url, params=params)
-
+           
            if response.status_code == 200:
                #Parses the API response as data
                recipe_data = response.json()
                
+               #Checks if a recipe with the same name already exists
+               existing_recipe = Recipe.query.filter_by(
+                    user_id=current_user.id,
+                    name=recipe_data['title']
+                ).first()
+              
+               if existing_recipe:
+                flash('Recipe already saved!', 'info')
+                return redirect(url_for('views.recipe', recipe_id=recipe_id))
+                
+               # Create a new Recipe object and save it
                new_recipe = Recipe(
                    name=recipe_data['title'],
                    ingredients=", ".join(ingredient['name'] for ingredient in recipe_data['extendedIngredients']),
@@ -144,4 +154,3 @@ def delete_recipe(recipe_id):
         flash('You can only delete your own recipes.', 'error')
 
     return redirect(url_for('views.saved_recipes'))
-
