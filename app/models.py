@@ -5,6 +5,9 @@ from flask_login import UserMixin
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'name', name='unique_user_recipe'),
+    )
     ingredients = db.Column(db.Text, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(255))
