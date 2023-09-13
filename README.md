@@ -7,7 +7,7 @@ Welcome to the README of RecipeMuse. This project is designed to provide a high 
 
 You can find the deployed project at http://web-01.becky1703.tech
 
-Here is a blog post on LinkedIn talking about how the project came about and challlenges faced (http://)
+Here is a blog post I wrote on Linkedin talking about the project http://https://www.linkedin.com/pulse/navigating-culinary-code-my-journey-myrecipemuse-adelaja
 
 Now let's talk about how to get started.
 
@@ -22,7 +22,6 @@ Now let's talk about how to get started.
    - Getting started
    - Contributing Guidelines
    - Pull Request Template
-   - Code of Conduct
 > Related projects
 
 > License
@@ -138,22 +137,24 @@ Related issues: [List any related issues or pull requests ]
 ## Related Projects
 Explore other projects and resoources related to RecipeMuse:
 
-Related Project 1: A Recipe App for Mobile made with Flutter https://github.com/gerfagerfa/recipe
+A Recipe App for Mobile made with Flutter https://github.com/gerfagerfa/recipe
 
-Related Project 2: A Recipe App
+A Recipe App
 
 ## Authors
 
 > Rebecca Adelaja 
+  
   email: <oluwabukunmia@gmail.com>
-  linkedin: <>
+  
+  linkedin: <https://www.linkedin.com/in/oluwabukunmi-rebecca-adelaja-725742bb/>
 
 ## About Me
 I am a lawyer and food business owner turned dedicated software engineer with a fervour for creating meaningful and user-friendly applications. RecipeMuse is just a precursor to what the future holds, and I'm eagerly anticipating the exciting adventures that technology has in store.  Here are links to my:
 
 Deployed project: http://web-01.becky1703.tech
 
-Landing page:https://myrecipemuse.mailchimpsites.com/
+Landing page: https://myrecipemuse.mailchimpsites.com/
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
